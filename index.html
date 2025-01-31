@@ -88,6 +88,21 @@
         let previousOperand = '';
         let operator = null;
 
+        document.addEventListener('keydown', handleKeyPress);
+
+        function handleKeyPress(event) {
+            const key = event.key;
+            if ((key >= '0' && key <= '9') || key === '.') {
+                appendNumber(key);
+            } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+                setOperator(key);
+            } else if (key === 'Enter' || key === '=') {
+                calculate();
+            } else if (key === 'Escape') {
+                clearDisplay();
+            }
+        }
+
         function appendNumber(number) {
             if (number === '.' && currentOperand.includes('.')) return;
             currentOperand += number;
