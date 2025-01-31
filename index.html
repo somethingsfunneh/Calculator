@@ -1,94 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Calculator</title>
+    <title>My Simple Calculator</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
         .calculator {
-            background-color: #333;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        #display {
-            width: 100%;
-            height: 40px;
-            font-size: 24px;
-            text-align: right;
-            margin-bottom: 10px;
-            padding: 5px;
-            border: none;
-            background-color: #eee;
-        }
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 5px;
-        }
-        button {
-            width: 100%;
-            height: 50px;
-            font-size: 20px;
-            border: none;
+            width: 200px;
+            margin: 50px auto;
+            padding: 10px;
+            border: 2px solid #333;
             border-radius: 5px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
         }
-        button:hover {
-            background-color: #45a049;
+        input, button {
+            margin: 5px;
+            padding: 5px;
+        }
+        #result {
+            width: 180px;
         }
     </style>
 </head>
 <body>
     <div class="calculator">
-        <input type="text" id="display" readonly>
-        <div class="buttons">
-            <button onclick="clearDisplay()">C</button>
-            <button onclick="appendToDisplay('7')">7</button>
-            <button onclick="appendToDisplay('8')">8</button>
-            <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendToDisplay('+')">+</button>
-            <button onclick="appendToDisplay('4')">4</button>
-            <button onclick="appendToDisplay('5')">5</button>
-            <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('-')">-</button>
-            <button onclick="appendToDisplay('1')">1</button>
-            <button onclick="appendToDisplay('2')">2</button>
-            <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="appendToDisplay('*')">*</button>
-            <button onclick="appendToDisplay('0')">0</button>
-            <button onclick="appendToDisplay('.')">.</button>
-            <button onclick="calculate()">=</button>
-            <button onclick="appendToDisplay('/')">/</button>
-        </div>
+        <input type="number" id="num1" placeholder="First number">
+        <input type="number" id="num2" placeholder="Second number">
+        <br>
+        <button onclick="add()">+</button>
+        <button onclick="subtract()">-</button>
+        <button onclick="multiply()">×</button>
+        <button onclick="divide()">÷</button>
+        <br>
+        <input type="text" id="result" readonly>
     </div>
 
     <script>
-        function appendToDisplay(value) {
-            document.getElementById('display').value += value;
+        function add() {
+            let num1 = document.getElementById("num1").value;
+            let num2 = document.getElementById("num2").value;
+            document.getElementById("result").value = Number(num1) + Number(num2);
         }
 
-        function clearDisplay() {
-            document.getElementById('display').value = '';
+        function subtract() {
+            let num1 = document.getElementById("num1").value;
+            let num2 = document.getElementById("num2").value;
+            document.getElementById("result").value = Number(num1) - Number(num2);
         }
 
-        function calculate() {
-            try {
-                const result = eval(document.getElementById('display').value);
-                document.getElementById('display').value = result;
-            } catch (error) {
-                document.getElementById('display').value = 'Error';
+        function multiply() {
+            let num1 = document.getElementById("num1").value;
+            let num2 = document.getElementById("num2").value;
+            document.getElementById("result").value = Number(num1) * Number(num2);
+        }
+
+        function divide() {
+            let num1 = document.getElementById("num1").value;
+            let num2 = document.getElementById("num2").value;
+            if(num2 == 0) {
+                document.getElementById("result").value = "Cannot divide by zero";
+            } else {
+                document.getElementById("result").value = Number(num1) / Number(num2);
             }
         }
     </script>
