@@ -57,6 +57,12 @@
         .button.clear:hover {
             background-color: #c82333;
         }
+        .button.memory {
+            background-color: #17a2b8;
+        }
+        .button.memory:hover {
+            background-color: #117a8b;
+        }
     </style>
 </head>
 <body>
@@ -64,6 +70,13 @@
         <input type="text" class="display" id="display" disabled>
         <div class="buttons">
             <button class="button clear" onclick="clearDisplay()">C</button>
+            <button class="button" onclick="backspace()">←</button>
+            <button class="button memory" onclick="memoryClear()">MC</button>
+            <button class="button memory" onclick="memoryRecall()">MR</button>
+            <button class="button memory" onclick="memoryAdd()">M+</button>
+            <button class="button memory" onclick="memorySubtract()">M-</button>
+            <button class="button operator" onclick="calculateSqrt()">√</button>
+            <button class="button operator" onclick="setOperator('^')">^</button>
             <button class="button" onclick="appendNumber('7')">7</button>
             <button class="button" onclick="appendNumber('8')">8</button>
             <button class="button" onclick="appendNumber('9')">9</button>
@@ -78,7 +91,7 @@
             <button class="button operator" onclick="setOperator('-')">-</button>
             <button class="button" onclick="appendNumber('0')">0</button>
             <button class="button" onclick="appendNumber('.')">.</button>
-            <button class="button" onclick="calculate()">=</button>
+            <button class="button operator" onclick="calculate()">=</button>
             <button class="button operator" onclick="setOperator('+')">+</button>
         </div>
     </div>
@@ -87,6 +100,7 @@
         let currentOperand = '';
         let previousOperand = '';
         let operator = null;
+        let memory = 0;
 
         document.addEventListener('keydown', handleKeyPress);
 
@@ -94,12 +108,14 @@
             const key = event.key;
             if ((key >= '0' && key <= '9') || key === '.') {
                 appendNumber(key);
-            } else if (['+', '-', '*', '/'].includes(key)) {
+            } else if (['+', '-', '*', '/', '^'].includes(key)) {
                 setOperator(key);
             } else if (key === 'Enter' || key === '=') {
                 calculate();
             } else if (key === 'Escape') {
                 clearDisplay();
+            } else if (key === 'Backspace') {
+                backspace();
             }
         }
 
@@ -117,6 +133,12 @@
             operator = op;
             previousOperand = currentOperand;
             currentOperand = '';
+        }
+
+        function calculateSqrt() {
+            if (currentOperand === '') return;
+            currentOperand = Math.sqrt(parseFloat(currentOperand));
+            updateDisplay();
         }
 
         function calculate() {
@@ -137,6 +159,9 @@
                 case '/':
                     result = current === 0 ? 'Error' : prev / current;
                     break;
+                case '^':
+                    result = Math.pow(prev, current);
+                    break;
                 default:
                     return;
             }
@@ -155,6 +180,30 @@
 
         function updateDisplay() {
             display.value = currentOperand;
+        }
+
+        function backspace() {
+            currentOperand = currentOperand.slice(0, -1);
+            updateDisplay();
+        }
+
+        function memoryClear() {
+            memory = 0;
+        }
+
+        function memoryRecall() {
+            currentOperand = memory.toString();
+            updateDisplay();
+        }
+
+        function memoryAdd() {
+            memory += parseFloat(currentOperand);
+            clearDisplay();
+        }
+
+        function memorySubtract() {
+            memory -= parseFloat(currentOperand);
+            clearDisplay();
         }
     </script>
 </body>
