@@ -51,12 +51,19 @@
         .button.operator:hover {
             background-color: #218838;
         }
+        .button.clear {
+            background-color: #dc3545;
+        }
+        .button.clear:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
     <div class="calculator">
         <input type="text" class="display" id="display" disabled>
         <div class="buttons">
+            <button class="button clear" onclick="clearDisplay()">C</button>
             <button class="button" onclick="appendNumber('7')">7</button>
             <button class="button" onclick="appendNumber('8')">8</button>
             <button class="button" onclick="appendNumber('9')">9</button>
@@ -113,7 +120,7 @@
                     result = prev * current;
                     break;
                 case '/':
-                    result = prev / current;
+                    result = current === 0 ? 'Error' : prev / current;
                     break;
                 default:
                     return;
@@ -121,6 +128,13 @@
             currentOperand = result;
             operator = null;
             previousOperand = '';
+            updateDisplay();
+        }
+
+        function clearDisplay() {
+            currentOperand = '';
+            previousOperand = '';
+            operator = null;
             updateDisplay();
         }
 
